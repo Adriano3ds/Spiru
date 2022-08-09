@@ -1,9 +1,14 @@
 package ib2.spiru.stars;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
+import android.view.View;
 
 import java.util.Random;
+
+import ib2.spiru.R;
 
 public class Star {
 
@@ -35,6 +40,22 @@ public class Star {
         int opacity = (int) (255*(1 - y));
         p.setColor(0x00FFFFFF | (opacity << 24));
         canvas.drawCircle(x * width, y * height, radius, p);
+    }
+
+    public static void onDraw(View view, Canvas canvas) {
+        view.setBackgroundResource(R.drawable.bg_gradient);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        displayMetrics.heightPixels = 1980;
+        displayMetrics.widthPixels = 1080;
+        ((Activity) view.getContext()).getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        for (int i = 0; i < 100; i++) {
+            Star s = new Star();
+            s.draw(canvas, width, height);
+        }
     }
 
 }
