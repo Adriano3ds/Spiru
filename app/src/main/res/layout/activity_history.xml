@@ -14,6 +14,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="#00FFFFFF"
+        android:contentDescription="@string/app_name"
         app:icon="@drawable/ic_baseline_west_24"
         app:iconGravity="textTop"
         app:layout_constraintStart_toStartOf="parent"
