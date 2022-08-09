@@ -19,7 +19,7 @@ public class Star {
     public Star() {
         Random random = new Random();
         setPoint(random.nextFloat(), random.nextFloat());
-        this.radius = 3 + random.nextFloat()*5;
+        this.radius = 3 + random.nextFloat() * 5;
     }
 
     public Star(float x, float y) {
@@ -37,7 +37,7 @@ public class Star {
 
     public void draw(Canvas canvas, int width, int height) {
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        int opacity = (int) (255*(1 - y));
+        int opacity = (int) (255 * (1 - y));
         p.setColor(0x00FFFFFF | (opacity << 24));
         canvas.drawCircle(x * width, y * height, radius, p);
     }
@@ -47,9 +47,12 @@ public class Star {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         displayMetrics.heightPixels = 1980;
         displayMetrics.widthPixels = 1080;
-        ((Activity) view.getContext()).getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(displayMetrics);
+        try {
+            ((Activity) view.getContext()).getWindowManager()
+                    .getDefaultDisplay()
+                    .getMetrics(displayMetrics);
+        } catch (Exception exception) {
+        }
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         for (int i = 0; i < 100; i++) {
