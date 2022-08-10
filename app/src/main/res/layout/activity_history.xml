@@ -15,6 +15,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/ic_baseline_west_24"
         android:contentDescription="Botão de retorno"
+        android:onClick="onClick"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
