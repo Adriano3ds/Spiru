@@ -33,7 +33,6 @@
         android:background="#00FFFFFF"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="@string/app_name"
-        android:onClick="onClick"
         app:icon="@drawable/ic_baseline_history_24"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
