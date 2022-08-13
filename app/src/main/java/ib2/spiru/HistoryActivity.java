@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 public class HistoryActivity extends AppCompatActivity {
 
@@ -12,12 +13,14 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        androidx.appcompat.widget.AppCompatButton historyBackButton =  findViewById(R.id.history_back);
-        historyBackButton.setOnClickListener((View.OnClickListener) this);
-    }
+        androidx.appcompat.widget.AppCompatButton backHistoryButton =
+                (androidx.appcompat.widget.AppCompatButton) findViewById(R.id.history_back);
 
-    public void onClick(View v) {
-        Intent intent = new Intent(HistoryActivity.this, MonitorActivity.class);
-        startActivity(intent);
+        backHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HistoryActivity.this, MonitorActivity.class));
+            }
+        });
     }
 }
