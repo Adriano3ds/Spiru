@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Spiru</string>
+    <string name="ble_not_supported">Não deu</string>
+    <string name="bluetooth_not_supported">Não deu de novo</string>
 </resources>
