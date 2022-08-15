@@ -70,5 +70,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_baseline_search_24" />
 
+        <TextView
+            android:id="@+id/peripheralTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="94dp"
+            tools:layout_editor_absoluteY="476dp" />
+
     </ib2.spiru.stars.StarsConstraintLayout>
 </LinearLayout>
