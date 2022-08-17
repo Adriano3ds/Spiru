@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ib2.spiru.stars.StarsConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,11 +8,11 @@
     android:orientation="vertical"
     tools:context=".BluetoothActivity">
 
-    <ib2.spiru.stars.StarsConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-120dp"
-        tools:layout_editor_absoluteY="0dp">
+<!--    <-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:layout_editor_absoluteX="-120dp"-->
+<!--        tools:layout_editor_absoluteY="0dp">-->
 
         <TextView
             android:id="@+id/connectedBluetooth"
@@ -45,31 +45,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.209" />
 
-        <ListView
-            android:id="@+id/scanLV"
-            android:layout_width="358dp"
-            android:layout_height="230dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.301"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/connectedBluetooth"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/scanButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="44dp"
-            android:clickable="true"
-            app:backgroundTint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.876"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_baseline_search_24" />
-
         <TextView
             android:id="@+id/peripheralTextView"
             android:layout_width="wrap_content"
@@ -78,5 +53,5 @@
             tools:layout_editor_absoluteX="94dp"
             tools:layout_editor_absoluteY="476dp" />
 
-    </ib2.spiru.stars.StarsConstraintLayout>
-</LinearLayout>
+        <!--    </>-->
+</ib2.spiru.stars.StarsConstraintLayout>
