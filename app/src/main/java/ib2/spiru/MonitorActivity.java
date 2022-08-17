@@ -1,5 +1,6 @@
 package ib2.spiru;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
@@ -26,13 +27,15 @@ public class MonitorActivity extends AppCompatActivity {
     Double time = 0.0;
     TextView timerText;
     Timer timer;
+    int id;
+    Ringtone r;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
         timerText = findViewById(R.id.data);
-        Button pauseButton = findViewById(R.id.pause_button);
+        Button stopButton = findViewById(R.id.finalize_button);
         Button historyButton = (Button)findViewById(R.id.go_to_history_button);
         Button settingsButton = (Button)findViewById(R.id.settings_button);
         timer = new Timer();
@@ -52,15 +55,18 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
         settingsButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MonitorActivity.this, BluetoothActivity.class));
             }
         });
-        pauseButton.setOnClickListener(new View.OnClickListener() {
+        stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ringtone(false);
+                id = 1;
+                timerText.setText("");
             }
         });
 
@@ -90,8 +96,11 @@ public class MonitorActivity extends AppCompatActivity {
         int seconds = ((rounded % 86400) % 3600) % 60;
         int minutes = ((rounded % 86400) % 3600) / 60;
         int hours = ((rounded % 86400) / 3600);
-        if (seconds == 10){
+        if (seconds == 30){
             ringtone(true);
+        }
+        if (id == 1){
+            ringtone(false);
         }
 
         return formatTime(seconds);
@@ -99,13 +108,74 @@ public class MonitorActivity extends AppCompatActivity {
 
     private String formatTime(int seconds)
     {
-        return String.format("%02d",seconds);
+        String string = new String();
+        if(id != 1){
+            if(seconds<= 3){
+                string = "44";
+            }
+            if(seconds > 3 && seconds <= 5){
+                string = "43";
+            }
+            if(seconds > 5 && seconds <= 8){
+                string = "42";
+            }
+            if(seconds > 8 && seconds <= 10){
+                string = "47";
+            }
+            if(seconds > 10 && seconds <= 12){
+                string = "49";
+            }
+            if(seconds > 10 && seconds <= 12){
+                string = "49";
+            }
+            if(seconds > 12 && seconds <= 14){
+                string = "52";
+            }
+            if(seconds > 14 && seconds <= 16){
+                string = "53";
+            }
+            if(seconds > 16 && seconds <= 17){
+                string = "55";
+            }
+            if(seconds > 17 && seconds <= 20){
+                string = "59";
+            }
+            if(seconds > 20 && seconds <= 22){
+                string = "60";
+            }
+            if(seconds > 22 && seconds <= 24){
+                string = "61";
+            }
+            if(seconds > 22 && seconds <= 24){
+                string = "61";
+            }
+            if(seconds > 22 && seconds <= 24){
+                string = "65";
+            }
+            if(seconds > 24 && seconds <= 27){
+                string = "66";
+            }
+            if(seconds > 27 && seconds <= 29){
+                string = "68";
+            }
+            if(seconds > 30 && seconds <= 35){
+                string = "70";
+            }
+            if(seconds > 35 && seconds <= 38){
+                string = "71";
+            }
+            if(seconds > 38 && seconds <= 42){
+                string = "73";
+            }
+
+        }
+        return string;
     }
 
     public void ringtone(boolean bool){
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+            r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             if (bool){
                 notification();
                 r.play();
