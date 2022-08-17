@@ -174,14 +174,14 @@ public class MonitorActivity extends AppCompatActivity {
 
     public void ringtone(boolean bool){
         try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             if (bool){
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 notification();
                 r.play();
             }
-            else {
-                r.stop();
+            if (!bool) {
+                    r.stop();
             }
         } catch (Exception e) {
             e.printStackTrace();
