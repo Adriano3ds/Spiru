@@ -88,6 +88,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 Log.i("BLE", "SCAN FINISHED: ");
                 for(BleDevice bleDevice : scanResultList){
                     Log.i("BLE", "DEVICES: " + bleDevice.getName()+ " " + bleDevice.getMac());
+                    Toast.makeText(BluetoothActivity.this, " " + bleDevice.getMac(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
