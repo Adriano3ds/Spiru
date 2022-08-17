@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -48,14 +50,43 @@ import java.util.List;
 import java.util.UUID;
 
 public class BluetoothActivity extends AppCompatActivity {
-    UUID uuid_service;
-    UUID uuid_chara;
+
+    private ListView listView;
+    public DeviceAdapter mDeviceAdapter;
+    public static final String TAG = BluetoothActivity.class.getSimpleName();
 
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
+
+        listView = findViewById(R.id.listView);
+        this.mDeviceAdapter = new DeviceAdapter(this);
+        this.mDeviceAdapter.setOnDeviceClickListener(new DeviceAdapter.OnDeviceClickListener() {
+            public void onConnect(BleDevice bleDevice) {
+                if (!BleManager.getInstance().isConnected(bleDevice)) {
+                    BleManager.getInstance().cancelScan();
+                    BluetoothActivity.this.connect(bleDevice);
+                }
+            }
+
+            public void onDisConnect(BleDevice bleDevice) {
+                if (BleManager.getInstance().isConnected(bleDevice)) {
+                    BleManager.getInstance().disconnect(bleDevice);
+                }
+            }
+
+            public void onDetail(BleDevice bleDevice) {
+                if (BleManager.getInstance().isConnected(bleDevice)) {
+//                    Intent intent = new Intent(this, OperationActivity.class);
+//                    intent.putExtra(OperationActivity.KEY_DATA, bleDevice);
+//                    BluetoothActivity.this.startActivity(intent);
+                }
+            }
+        });
+        listView.setAdapter(this.mDeviceAdapter);
+
 
         BleManager.getInstance().init(getApplication());
         BleManager.getInstance()
@@ -71,6 +102,65 @@ public class BluetoothActivity extends AppCompatActivity {
         checkPermissions();
 
     }
+
+    public void connect(BleDevice bleDevice) {
+        BleManager.getInstance().connect(bleDevice, (BleGattCallback) new BleGattCallback() {
+            public void onStartConnect() {
+//                MainActivity.this.progressDialog.show();
+            }
+
+            public void onConnectFail(BleDevice bleDevice, BleException exception) {
+//                this.img_loading.clearAnimation();
+//                this.img_loading.setVisibility(4);
+//                MainActivity.this.btn_scan.setText(MainActivity.this.getString(C0242R.string.start_scan));
+//                MainActivity.this.progressDialog.dismiss();
+                Toast.makeText(BluetoothActivity.this, "Falhou ao conectar", Toast.LENGTH_LONG).show();
+            }
+
+            public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
+//                MainActivity.this.progressDialog.dismiss();
+                BluetoothActivity.this.mDeviceAdapter.addDevice(bleDevice);
+                BluetoothActivity.this.mDeviceAdapter.notifyDataSetChanged();
+            }
+
+            public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
+//                MainActivity.this.progressDialog.dismiss();
+                BluetoothActivity.this.mDeviceAdapter.removeDevice(bleDevice);
+                BluetoothActivity.this.mDeviceAdapter.notifyDataSetChanged();
+                if (isActiveDisConnected) {
+                    Toast.makeText(BluetoothActivity.this, "Conectador", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Toast.makeText(BluetoothActivity.this, "Desconectado", Toast.LENGTH_LONG).show();
+                ObserverManager.getInstance().notifyObserver(bleDevice);
+            }
+        });
+    }
+
+    private void readRssi(BleDevice bleDevice) {
+        BleManager.getInstance().readRssi(bleDevice, new BleRssiCallback() {
+            public void onRssiFailure(BleException exception) {
+                Log.i(BluetoothActivity.TAG, "onRssiFailure" + exception.toString());
+            }
+
+            public void onRssiSuccess(int rssi) {
+                Log.i(BluetoothActivity.TAG, "onRssiSuccess: " + rssi);
+            }
+        });
+    }
+
+    private void setMtu(BleDevice bleDevice, int mtu) {
+        BleManager.getInstance().setMtu(bleDevice, mtu, new BleMtuChangedCallback() {
+            public void onSetMTUFailure(BleException exception) {
+                Log.i(BluetoothActivity.TAG, "onsetMTUFailure" + exception.toString());
+            }
+
+            public void onMtuChanged(int mtu) {
+                Log.i(BluetoothActivity.TAG, "onMtuChanged: " + mtu);
+            }
+        });
+    }
+
     public void startScan(){
         BleManager.getInstance().scan(new BleScanCallback() {
             @Override
@@ -81,6 +171,8 @@ public class BluetoothActivity extends AppCompatActivity {
             @Override
             public void onScanning(BleDevice bleDevice) {
                 Log.i("BLE", "ON SCANNING: " + bleDevice.getName() + " " + bleDevice.getMac());
+                BluetoothActivity.this.mDeviceAdapter.addDevice(bleDevice);
+                BluetoothActivity.this.mDeviceAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -88,7 +180,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 Log.i("BLE", "SCAN FINISHED: ");
                 for(BleDevice bleDevice : scanResultList){
                     Log.i("BLE", "DEVICES: " + bleDevice.getName()+ " " + bleDevice.getMac());
-                    Toast.makeText(BluetoothActivity.this, " " + bleDevice.getMac(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(BluetoothActivity.this, " " + bleDevice.getMac(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -182,7 +274,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 }
             }
         }
-        String str_name = "";
+        String str_name = "Spiru Band";
         if (TextUtils.isEmpty(str_name)) {
             names = null;
         } else {
