@@ -167,6 +167,18 @@ public class MonitorActivity extends AppCompatActivity {
             if(seconds > 38 && seconds <= 42){
                 string = "73";
             }
+            if(seconds > 35 && seconds <= 38){
+                string = "71";
+            }
+            if(seconds > 38 && seconds <= 42){
+                string = "73";
+            }
+            if(seconds > 42 && seconds <= 45){
+                string = "69";
+            }
+            if(seconds > 45 && seconds <= 47){
+                string = "65";
+            }
 
         }
         return string;
@@ -174,14 +186,14 @@ public class MonitorActivity extends AppCompatActivity {
 
     public void ringtone(boolean bool){
         try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-            r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             if (bool){
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                r = RingtoneManager.getRingtone(getApplicationContext(), notification);
                 notification();
                 r.play();
             }
-            else {
-                r.stop();
+            if (!bool) {
+                    r.stop();
             }
         } catch (Exception e) {
             e.printStackTrace();
