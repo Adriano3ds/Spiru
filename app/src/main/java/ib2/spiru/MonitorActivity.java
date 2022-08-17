@@ -167,6 +167,18 @@ public class MonitorActivity extends AppCompatActivity {
             if(seconds > 38 && seconds <= 42){
                 string = "73";
             }
+            if(seconds > 35 && seconds <= 38){
+                string = "71";
+            }
+            if(seconds > 38 && seconds <= 42){
+                string = "73";
+            }
+            if(seconds > 42 && seconds <= 45){
+                string = "69";
+            }
+            if(seconds > 45 && seconds <= 47){
+                string = "65";
+            }
 
         }
         return string;
